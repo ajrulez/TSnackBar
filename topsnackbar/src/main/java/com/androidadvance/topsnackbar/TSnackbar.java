@@ -272,6 +272,11 @@ public final class TSnackbar {
         return setAction(mContext.getText(resId), listener);
     }
 
+    @NonNull
+    public TSnackbar setActionTwo(@StringRes int resId, View.OnClickListener listener) {
+        return setActionTwo(mContext.getText(resId), listener);
+    }
+
     
     @NonNull
     public TSnackbar setAction(CharSequence text, final View.OnClickListener listener) {
