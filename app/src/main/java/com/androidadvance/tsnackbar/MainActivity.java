@@ -52,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 Log.d("Action Button", "onClick triggered");
                             }
+                        })
+                        .setActionTwo("Cool", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Log.d("Action Button Two", "onClick triggered");
+                            }
                         });
                 snackbar.setActionTextColor(Color.LTGRAY);
                 snackbar.addIcon(R.mipmap.ic_core, 200);

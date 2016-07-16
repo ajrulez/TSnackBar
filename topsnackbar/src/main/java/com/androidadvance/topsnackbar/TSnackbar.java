@@ -20,7 +20,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.SwipeDismissBehavior;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
@@ -296,6 +295,28 @@ public final class TSnackbar {
         return this;
     }
 
+    @NonNull
+    public TSnackbar setActionTwo(CharSequence text, final View.OnClickListener listener) {
+        final TextView tv = mView.getActionViewTwo();
+
+        if (TextUtils.isEmpty(text) || listener == null) {
+            tv.setVisibility(View.GONE);
+            tv.setOnClickListener(null);
+        } else {
+            tv.setVisibility(View.VISIBLE);
+            tv.setText(text);
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onClick(view);
+
+                    dispatchDismiss(Callback.DISMISS_EVENT_ACTION);
+                }
+            });
+        }
+        return this;
+    }
+
     
     @NonNull
     public TSnackbar setActionTextColor(ColorStateList colors) {
@@ -308,6 +329,21 @@ public final class TSnackbar {
     @NonNull
     public TSnackbar setActionTextColor(@ColorInt int color) {
         final TextView tv = mView.getActionView();
+        tv.setTextColor(color);
+        return this;
+    }
+
+    @NonNull
+    public TSnackbar setActionTwoTextColor(ColorStateList colors) {
+        final TextView tv = mView.getActionViewTwo();
+        tv.setTextColor(colors);
+        return this;
+    }
+
+
+    @NonNull
+    public TSnackbar setActionTextTwoColor(@ColorInt int color) {
+        final TextView tv = mView.getActionViewTwo();
         tv.setTextColor(color);
         return this;
     }
@@ -602,6 +638,7 @@ public final class TSnackbar {
     public static class SnackbarLayout extends LinearLayout {
         private TextView mMessageView;
         private Button mActionView;
+        private Button mActionViewTwo;
 
         private int mMaxWidth;
         private int mMaxInlineActionWidth;
@@ -652,6 +689,7 @@ public final class TSnackbar {
             super.onFinishInflate();
             mMessageView = (TextView) findViewById(R.id.snackbar_text);
             mActionView = (Button) findViewById(R.id.snackbar_action);
+            mActionViewTwo = (Button) findViewById(R.id.snackbar_action_two);
         }
 
         TextView getMessageView() {
@@ -660,6 +698,10 @@ public final class TSnackbar {
 
         Button getActionView() {
             return mActionView;
+        }
+
+        Button getActionViewTwo() {
+            return mActionViewTwo;
         }
 
         @Override
@@ -680,7 +722,8 @@ public final class TSnackbar {
 
             boolean remeasure = false;
             if (isMultiLine && mMaxInlineActionWidth > 0
-                    && mActionView.getMeasuredWidth() > mMaxInlineActionWidth) {
+                    && mActionView.getMeasuredWidth() > mMaxInlineActionWidth
+                    && mActionViewTwo.getMeasuredWidth() > mMaxInlineActionWidth) {
                 if (updateViewsWithinLayout(VERTICAL, multiLineVPadding,
                         multiLineVPadding - singleLineVPadding)) {
                     remeasure = true;
@@ -713,6 +756,15 @@ public final class TSnackbar {
                         .setStartDelay(delay)
                         .start();
             }
+
+            if (mActionViewTwo.getVisibility() == VISIBLE) {
+                ViewCompat.setAlpha(mActionViewTwo, 0f);
+                ViewCompat.animate(mActionViewTwo)
+                        .alpha(1f)
+                        .setDuration(duration)
+                        .setStartDelay(delay)
+                        .start();
+            }
         }
 
         void animateChildrenOut(int delay, int duration) {
@@ -726,6 +778,15 @@ public final class TSnackbar {
             if (mActionView.getVisibility() == VISIBLE) {
                 ViewCompat.setAlpha(mActionView, 1f);
                 ViewCompat.animate(mActionView)
+                        .alpha(0f)
+                        .setDuration(duration)
+                        .setStartDelay(delay)
+                        .start();
+            }
+
+            if (mActionViewTwo.getVisibility() == VISIBLE) {
+                ViewCompat.setAlpha(mActionViewTwo, 1f);
+                ViewCompat.animate(mActionViewTwo)
                         .alpha(0f)
                         .setDuration(duration)
                         .setStartDelay(delay)

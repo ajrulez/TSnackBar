@@ -14,13 +14,15 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
 -->
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:tools="http://schemas.android.com/tools">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <TextView
         android:id="@+id/snackbar_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:paddingTop="@dimen/design_snackbar_padding_vertical"
         android:paddingBottom="@dimen/design_snackbar_padding_vertical"
         android:paddingLeft="@dimen/design_snackbar_padding_horizontal"
@@ -28,7 +30,8 @@
         android:textAppearance="@style/TextAppearance.Design.Snackbar.Message"
         android:maxLines="@integer/design_snackbar_text_max_lines"
         android:gravity="center_vertical"
-        android:layout_gravity="center_vertical|start"
+        android:layout_gravity="center_vertical"
+        android:layout_alignParentLeft="true"
         tools:text="Text Goes Here"
         android:ellipsize="end"/>
     <Button
@@ -37,7 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/design_snackbar_extra_spacing_horizontal"
         android:layout_marginStart="@dimen/design_snackbar_extra_spacing_horizontal"
-        android:layout_gravity="center_vertical|end"
+        android:layout_gravity="center_vertical"
+        android:layout_alignParentRight="true"
         android:paddingTop="@dimen/design_snackbar_padding_vertical"
         android:paddingBottom="@dimen/design_snackbar_padding_vertical"
         android:paddingLeft="@dimen/design_snackbar_padding_horizontal"
@@ -47,4 +51,22 @@
         style="?attr/borderlessButtonStyle"
         tools:visibility="visible"
         tools:text="Action"/>
-</merge>
+    <Button
+        android:id="@+id/snackbar_action_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/design_snackbar_extra_spacing_horizontal"
+        android:layout_marginStart="@dimen/design_snackbar_extra_spacing_horizontal"
+        android:layout_gravity="center_vertical"
+        android:layout_toLeftOf="@+id/snackbar_action"
+        android:layout_marginRight="8dp"
+        android:paddingTop="@dimen/design_snackbar_padding_vertical"
+        android:paddingBottom="@dimen/design_snackbar_padding_vertical"
+        android:paddingLeft="@dimen/design_snackbar_padding_horizontal"
+        android:paddingRight="@dimen/design_snackbar_padding_horizontal"
+        android:visibility="gone"
+        android:textColor="?attr/colorAccent"
+        style="?attr/borderlessButtonStyle"
+        tools:visibility="visible"
+        tools:text="Action"/>
+</RelativeLayout>
